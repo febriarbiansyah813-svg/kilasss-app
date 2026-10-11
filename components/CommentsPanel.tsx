@@ -8,6 +8,7 @@ import type { CommentItem } from "@/lib/types";
 import { timeAgo } from "@/lib/utils";
 import Avatar from "./Avatar";
 import { CloseIcon } from "./icons";
+import { useAuth } from "./AuthProvider";
 
 type Props = {
   videoId: string;
@@ -19,6 +20,7 @@ type Props = {
 const COMMENT_SELECT = "id, content, created_at, user_id, profiles(username, avatar_url)";
 
 export default function CommentsPanel({ videoId, currentUserId, onClose, onCountChange }: Props) {
+  const { openAuthModal } = useAuth();
   const supabase = useMemo(() => createClient(), []);
   const router = useRouter();
   const pathname = usePathname();
@@ -53,7 +55,7 @@ export default function CommentsPanel({ videoId, currentUserId, onClose, onCount
     const content = text.trim();
     if (!content) return;
     if (!currentUserId) {
-      router.push(`/login?next=${encodeURIComponent(pathname)}`);
+      openAuthModal("Masuk untuk berkomentar");
       return;
     }
 

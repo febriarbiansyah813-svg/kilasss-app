@@ -10,16 +10,19 @@ import { setGlobalMuted, useGlobalMuted } from "@/lib/useGlobalMuted";
 import Avatar from "./Avatar";
 import CommentsPanel from "./CommentsPanel";
 import FollowButton from "./FollowButton";
-import { CommentIcon, HeartIcon, PlayIcon, VolumeIcon } from "./icons";
+import { BookmarkIcon, CommentIcon, HeartIcon, PlayIcon, VolumeIcon } from "./icons";
+import { useAuth } from "./AuthProvider";
 
 type Props = {
   video: FeedVideo;
   initialLiked: boolean;
   initialFollowing: boolean;
+  initialSaved?: boolean;
   currentUserId: string | null;
 };
 
-export default function VideoCard({ video, initialLiked, initialFollowing, currentUserId }: Props) {
+export default function VideoCard({ video, initialLiked, initialFollowing, initialSaved = false, currentUserId }: Props) {
+  const { openAuthModal } = useAuth();
   const supabase = useMemo(() => createClient(), []);
   const router = useRouter();
   const pathname = usePathname();
@@ -36,6 +39,8 @@ export default function VideoCard({ video, initialLiked, initialFollowing, curre
   const [commentsCount, setCommentsCount] = useState(video.comments_count);
   const [showComments, setShowComments] = useState(false);
   const [likeBusy, setLikeBusy] = useState(false);
+  const [saved, setSaved] = useState(initialSaved);
+  const [saveBusy, setSaveBusy] = useState(false);
 
   const isOwn = currentUserId === video.user_id;
 
@@ -72,7 +77,7 @@ export default function VideoCard({ video, initialLiked, initialFollowing, curre
 
   async function toggleLike() {
     if (!currentUserId) {
-      router.push(`/login?next=${encodeURIComponent(pathname)}`);
+      openAuthModal("Masuk untuk menyukai video");
       return;
     }
     if (likeBusy) return;
@@ -93,12 +98,28 @@ export default function VideoCard({ video, initialLiked, initialFollowing, curre
     setLikeBusy(false);
   }
 
+  async function toggleSave() {
+    if (!currentUserId) {
+      openAuthModal("Masuk untuk menyimpan video");
+      return;
+    }
+    if (saveBusy) return;
+    const next = !saved;
+    setSaved(next);
+    setSaveBusy(true);
+    const { error } = next
+      ? await supabase.from("bookmarks").insert({ user_id: currentUserId, video_id: video.id })
+      : await supabase.from("bookmarks").delete().match({ user_id: currentUserId, video_id: video.id });
+    if (error && error.code !== "23505") setSaved(!next);
+    setSaveBusy(false);
+  }
+
   return (
     <section
       ref={sectionRef}
       className="relative flex h-full w-full snap-start snap-always items-center justify-center bg-black"
     >
-      <div className="relative h-full w-full max-w-[460px] overflow-hidden bg-neutral-950">
+      <div className="relative h-full w-full overflow-hidden bg-neutral-950 md:max-w-[460px]">
         <video
           ref={videoRef}
           src={`${video.video_url}#t=0.001`}
@@ -113,7 +134,7 @@ export default function VideoCard({ video, initialLiked, initialFollowing, curre
               progressRef.current.style.width = `${(v.currentTime / v.duration) * 100}%`;
             }
           }}
-          className="h-full w-full cursor-pointer object-contain"
+          className="h-full w-full cursor-pointer object-cover md:object-contain"
         />
 
         {userPaused && (
@@ -125,13 +146,13 @@ export default function VideoCard({ video, initialLiked, initialFollowing, curre
         <button
           onClick={() => setGlobalMuted(!muted)}
           aria-label={muted ? "Nyalakan suara" : "Matikan suara"}
-          className="absolute right-3 top-3 z-20 grid h-9 w-9 place-items-center rounded-full bg-black/50 backdrop-blur"
+          className="absolute right-3 top-14 z-20 md:top-3 grid h-9 w-9 place-items-center rounded-full bg-black/50 backdrop-blur"
         >
           <VolumeIcon muted={muted} />
         </button>
 
         {/* Info kreator + caption */}
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-black/80 via-black/30 to-transparent p-4 pr-20 pt-20">
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-10 bg-gradient-to-t from-black/80 via-black/30 to-transparent p-4 pb-20 pr-20 pt-20 md:pb-4">
           <div className="pointer-events-auto flex items-center gap-2">
             <Link href={`/u/${video.profiles.username}`} className="flex min-w-0 items-center gap-2">
               <Avatar src={video.profiles.avatar_url} name={video.profiles.username} size={36} />
@@ -151,7 +172,7 @@ export default function VideoCard({ video, initialLiked, initialFollowing, curre
         </div>
 
         {/* Tombol aksi */}
-        <div className="absolute bottom-24 right-3 z-20 flex flex-col items-center gap-5">
+        <div className="absolute bottom-28 right-3 z-20 md:bottom-24 flex flex-col items-center gap-5">
           <button
             onClick={toggleLike}
             aria-label={liked ? "Batal suka" : "Suka"}
@@ -173,6 +194,18 @@ export default function VideoCard({ video, initialLiked, initialFollowing, curre
               <CommentIcon />
             </span>
             <span className="text-xs font-semibold drop-shadow">{formatCount(commentsCount)}</span>
+          </button>
+
+          <button
+            onClick={toggleSave}
+            aria-label={saved ? "Hapus dari simpanan" : "Simpan"}
+            aria-pressed={saved}
+            className="flex flex-col items-center gap-1"
+          >
+            <span className="grid h-11 w-11 place-items-center rounded-full bg-black/40 backdrop-blur">
+              <BookmarkIcon filled={saved} className={saved ? "text-amber-400" : "text-white"} />
+            </span>
+            <span className="text-xs font-semibold drop-shadow">{saved ? "Disimpan" : "Simpan"}</span>
           </button>
         </div>
 

@@ -197,3 +197,11 @@ export function SidebarToggleIcon({ className, size = 22 }: IconProps) {
     </svg>
   );
 }
+
+export function BookmarkIcon({ filled, className, size = 26 }: IconProps & { filled?: boolean }) {
+  return (
+    <svg width={size} height={size} {...base} fill={filled ? "currentColor" : "none"} className={className}>
+      <path d="M6 3h12a1 1 0 0 1 1 1v17l-7-4.5L5 21V4a1 1 0 0 1 1-1z" />
+    </svg>
+  );
+}

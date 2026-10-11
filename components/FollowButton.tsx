@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import { useAuth } from "./AuthProvider";
 
 type Props = {
   targetUserId: string;
@@ -20,6 +21,7 @@ export default function FollowButton({
   variant = "small",
   refreshOnChange = false,
 }: Props) {
+  const { openAuthModal } = useAuth();
   const supabase = useMemo(() => createClient(), []);
   const router = useRouter();
   const pathname = usePathname();
@@ -30,7 +32,7 @@ export default function FollowButton({
 
   async function toggle() {
     if (!currentUserId) {
-      router.push(`/login?next=${encodeURIComponent(pathname)}`);
+      openAuthModal("Masuk untuk mengikuti kreator");
       return;
     }
     if (busy) return;

@@ -3,7 +3,7 @@ import { NextResponse, type NextRequest } from "next/server";
 
 type CookieToSet = { name: string; value: string; options: CookieOptions };
 
-const PROTECTED_PREFIXES = ["/upload", "/settings"];
+const PROTECTED_PREFIXES = ["/upload", "/settings", "/saved"];
 const AUTH_PAGES = ["/login", "/signup"];
 
 // Menyegarkan token sesi di setiap request + mengarahkan user sesuai status login.

@@ -20,22 +20,25 @@ export default async function VideoPage({ params }: { params: { id: string } }) 
 
   let liked = false;
   let following = false;
+  let saved = false;
   if (user) {
-    const [l, f] = await Promise.all([
+    const [l, f, b] = await Promise.all([
       supabase.from("likes").select("video_id").match({ user_id: user.id, video_id: video.id }).maybeSingle(),
       supabase
         .from("follows")
         .select("follower_id")
         .match({ follower_id: user.id, following_id: video.user_id })
         .maybeSingle(),
+      supabase.from("bookmarks").select("video_id").match({ user_id: user.id, video_id: video.id }).maybeSingle(),
     ]);
+    saved = !!b.data;
     liked = !!l.data;
     following = !!f.data;
   }
 
   return (
     <div className="h-full">
-      <VideoCard video={video} initialLiked={liked} initialFollowing={following} currentUserId={user?.id ?? null} />
+      <VideoCard video={video} initialLiked={liked} initialFollowing={following} initialSaved={saved} currentUserId={user?.id ?? null} />
     </div>
   );
 }

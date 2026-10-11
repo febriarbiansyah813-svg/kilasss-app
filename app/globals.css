@@ -18,3 +18,12 @@ body {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+/* Mode terang: membalik warna seluruh UI, lalu mengembalikan media */
+html[data-theme="light"] {
+  filter: invert(1) hue-rotate(180deg);
+}
+html[data-theme="light"] video,
+html[data-theme="light"] img {
+  filter: invert(1) hue-rotate(180deg);
+}

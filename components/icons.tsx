@@ -94,3 +94,106 @@ export function CloseIcon({ className, size = 20 }: IconProps) {
     </svg>
   );
 }
+
+const base = {
+  viewBox: "0 0 24 24",
+  fill: "none",
+  stroke: "currentColor",
+  strokeWidth: 2,
+  strokeLinecap: "round" as const,
+  strokeLinejoin: "round" as const,
+  "aria-hidden": true,
+};
+
+export function HomeIcon({ filled, className, size = 28 }: IconProps & { filled?: boolean }) {
+  return (
+    <svg width={size} height={size} {...base} fill={filled ? "currentColor" : "none"} className={className}>
+      <path d="M3 10.8 12 3l9 7.8V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z" />
+    </svg>
+  );
+}
+
+export function CompassIcon({ className, size = 28 }: IconProps) {
+  return (
+    <svg width={size} height={size} {...base} className={className}>
+      <circle cx="12" cy="12" r="10" />
+      <path d="m15.5 8.5-2 5-5 2 2-5z" />
+    </svg>
+  );
+}
+
+export function FollowingIcon({ className, size = 28 }: IconProps) {
+  return (
+    <svg width={size} height={size} {...base} className={className}>
+      <circle cx="9" cy="7.5" r="4" />
+      <path d="M3 21v-1a5 5 0 0 1 5-5h2" />
+      <path d="M21 17h-7m3-3-3 3 3 3" />
+    </svg>
+  );
+}
+
+export function FilmIcon({ className, size = 28 }: IconProps) {
+  return (
+    <svg width={size} height={size} {...base} className={className}>
+      <rect x="3" y="4" width="18" height="16" rx="2" />
+      <path d="M7 4v16M17 4v16M3 9h4M3 15h4M17 9h4M17 15h4" />
+      <path d="m10.5 9.5 4 2.5-4 2.5z" fill="currentColor" />
+    </svg>
+  );
+}
+
+export function LiveIcon({ className, size = 28 }: IconProps) {
+  return (
+    <svg width={size} height={size} {...base} className={className}>
+      <rect x="3" y="7" width="18" height="14" rx="2" />
+      <path d="m8 2 4 4 4-4" />
+      <path d="M8 17v-3M12 17v-6M16 17v-4" />
+    </svg>
+  );
+}
+
+export function PlusSquareIcon({ className, size = 28 }: IconProps) {
+  return (
+    <svg width={size} height={size} {...base} className={className}>
+      <rect x="3" y="3" width="18" height="18" rx="3" />
+      <path d="M12 8v8M8 12h8" />
+    </svg>
+  );
+}
+
+export function UserIcon({ className, size = 28 }: IconProps) {
+  return (
+    <svg width={size} height={size} {...base} className={className}>
+      <circle cx="12" cy="8" r="4" />
+      <path d="M4 21v-1a6 6 0 0 1 6-6h4a6 6 0 0 1 6 6v1" />
+    </svg>
+  );
+}
+
+export function MoreIcon({ className, size = 28 }: IconProps) {
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden>
+      <circle cx="5" cy="12" r="1.8" />
+      <circle cx="12" cy="12" r="1.8" />
+      <circle cx="19" cy="12" r="1.8" />
+    </svg>
+  );
+}
+
+export function SearchIcon({ className, size = 22 }: IconProps) {
+  return (
+    <svg width={size} height={size} {...base} className={className}>
+      <circle cx="11" cy="11" r="7.5" />
+      <path d="m20.5 20.5-4-4" />
+    </svg>
+  );
+}
+
+export function SidebarToggleIcon({ className, size = 22 }: IconProps) {
+  return (
+    <svg width={size} height={size} {...base} className={className}>
+      <rect x="3" y="3" width="18" height="18" rx="4" />
+      <rect x="6.5" y="6.5" width="4" height="11" rx="1" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}

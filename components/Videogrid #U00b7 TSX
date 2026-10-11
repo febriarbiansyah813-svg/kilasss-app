@@ -1,0 +1,28 @@
+import Link from "next/link";
+import { formatCount } from "@/lib/utils";
+
+export type GridVideo = { id: string; video_url: string; likes_count: number };
+
+// Grid thumbnail video (dipakai di halaman Jelajahi dan Cari).
+export default function VideoGrid({ videos }: { videos: GridVideo[] }) {
+  return (
+    <ul className="grid grid-cols-3 gap-1 sm:grid-cols-4 lg:grid-cols-5">
+      {videos.map((v) => (
+        <li key={v.id}>
+          <Link href={`/v/${v.id}`} className="group relative block aspect-[9/16] overflow-hidden bg-neutral-900">
+            <video
+              src={`${v.video_url}#t=0.1`}
+              muted
+              playsInline
+              preload="metadata"
+              className="h-full w-full object-cover transition group-hover:scale-105"
+            />
+            <span className="absolute bottom-1 left-1 rounded bg-black/60 px-1.5 py-0.5 text-xs">
+              ♥ {formatCount(v.likes_count)}
+            </span>
+          </Link>
+        </li>
+      ))}
+    </ul>
+  );
+}

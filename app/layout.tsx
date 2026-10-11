@@ -17,8 +17,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="id">
       <body className="bg-black text-white antialiased">
-        <Navbar />
-        <main className="h-[calc(100dvh-3.5rem)] overflow-y-auto">{children}</main>
+        <div className="flex h-dvh">
+          <Navbar />
+          <main className="h-dvh min-w-0 flex-1 overflow-y-auto pb-14 md:pb-0">{children}</main>
+        </div>
       </body>
     </html>
   );

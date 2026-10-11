@@ -12,7 +12,12 @@ import {
   PlusSquareIcon, SearchIcon, SidebarToggleIcon, UserIcon,
 } from "./icons";
 
-export default function Sidebar() {
+// 1. Definisikan interface props agar menerima username dari Navbar
+interface SidebarProps {
+  username?: string | null;
+}
+
+export default function Sidebar({ username }: SidebarProps) {
   const { user, openAuthModal } = useAuth();
   const pathname = usePathname();
   const router = useRouter();

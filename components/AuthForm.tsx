@@ -89,7 +89,7 @@ export default function AuthForm({ mode, next, initialError = null }: Props) {
     "w-full rounded-lg border border-neutral-800 bg-neutral-900 px-3 py-2.5 text-sm outline-none focus:border-neutral-500";
 
   return (
-    <div className="mx-auto w-full max-w-sm px-4 py-10">
+    <div className="mx-auto w-full max-w-sm px-4 pb-10 pt-16 md:pt-10">
       <h1 className="mb-6 text-2xl font-bold">{isSignup ? "Buat akun" : "Masuk ke OmniSocial"}</h1>
 
       <button

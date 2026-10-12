@@ -1,3 +1,4 @@
+import ReportForm from "@/components/ReportForm";
 export const metadata = { title: "Bantuan — OmniSocial" };
 
 const FAQ = [
@@ -21,10 +22,7 @@ export default function HelpPage() {
 
       <h2 id="lapor" className="mt-10 scroll-mt-20 text-xl font-bold">Laporkan masalah</h2>
       <p className="mt-1 text-sm text-neutral-400">Ceritakan masalahnya; laporan akan dikirim lewat email.</p>
-      <form action="mailto:support@omnisocial.example" method="post" encType="text/plain" className="mt-3">
-        <textarea name="Laporan" rows={5} required className="w-full rounded-lg bg-neutral-900 p-3 text-sm focus:outline-none" placeholder="Jelaskan masalah yang kamu alami…" />
-        <button className="mt-2 rounded-md bg-brand px-4 py-2 text-sm font-semibold">Kirim laporan</button>
-      </form>
+      <ReportForm />
     </div>
   );
 }

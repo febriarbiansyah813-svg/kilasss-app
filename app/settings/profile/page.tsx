@@ -19,7 +19,7 @@ export default async function EditProfilePage() {
   if (!profile) redirect("/");
 
   return (
-    <div className="mx-auto max-w-md p-4">
+    <div className="mx-auto max-w-md px-4 pb-4 pt-16 md:pt-4">
       <h1 className="mb-4 text-xl font-bold">Edit profil</h1>
       <ProfileEditForm profile={profile} />
     </div>

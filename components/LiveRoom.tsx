@@ -5,6 +5,8 @@ import { useAuth } from "./AuthProvider";
 import { LIVE_ROOMS } from "@/lib/mock";
 import { formatCount } from "@/lib/utils";
 
+const SAMPLE_STREAM = "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4";
+
 type Msg = { id: number; user: string; text: string };
 const BOTS = ["rina", "doni", "salsa", "bayu", "mira"];
 const LINES = ["Halo kak! 👋", "Keren banget", "Salam dari Surabaya", "Lagu apa tadi?", "🔥🔥🔥", "Wah mantap"];
@@ -45,7 +47,9 @@ export default function LiveRoom() {
         <div className={`relative grid aspect-video place-items-center rounded-xl bg-gradient-to-br ${room.color}`}>
           <span className="absolute left-3 top-3 rounded bg-brand px-2 py-0.5 text-xs font-extrabold">LIVE</span>
           <span className="absolute right-3 top-3 rounded bg-black/50 px-2 py-0.5 text-xs">👁 {formatCount(room.viewers)}</span>
-          <p className="px-6 text-center text-xl font-extrabold">{room.title}</p>
+          <video key={room.id} src={SAMPLE_STREAM} autoPlay muted loop playsInline className="absolute inset-0 h-full w-full rounded-xl object-cover opacity-60" />
+          <p className="relative px-6 text-center text-xl font-extrabold drop-shadow">{room.title}</p>
+          <span className="absolute bottom-3 left-3 rounded bg-black/60 px-2 py-0.5 text-[11px] text-white/80">Demo — bukan siaran sungguhan</span>
         </div>
         <p className="mt-3 font-bold">@{room.host}</p>
 

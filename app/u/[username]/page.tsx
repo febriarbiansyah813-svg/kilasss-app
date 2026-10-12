@@ -43,7 +43,7 @@ export default async function ProfilePage({ params }: { params: { username: stri
   }
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-6">
+    <div className="mx-auto max-w-3xl px-4 pb-6 pt-16 md:pt-6">
       <header className="flex flex-col items-center gap-3 text-center sm:flex-row sm:items-start sm:gap-6 sm:text-left">
         <Avatar src={profile.avatar_url} name={profile.username} size={96} />
         <div className="flex-1">

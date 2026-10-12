@@ -2,8 +2,11 @@
 export type Episode = { n: number; title: string; duration: string; video_url?: string };
 export type Series = { id: string; title: string; genre: string; color: string; episodes: Episode[] };
 
+// Video contoh (CC0). Ganti per-episode dengan URL video Anda / tabel Supabase.
+const SAMPLE_VIDEO = "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4";
+
 const eps = (t: string, n: number): Episode[] =>
-  Array.from({ length: n }, (_, i) => ({ n: i + 1, title: `${t} — Episode ${i + 1}`, duration: `${1 + (i % 3)}:${i % 2 ? "30" : "05"}` }));
+  Array.from({ length: n }, (_, i) => ({ n: i + 1, video_url: SAMPLE_VIDEO, title: `${t} — Episode ${i + 1}`, duration: `${1 + (i % 3)}:${i % 2 ? "30" : "05"}` }));
 
 export const SERIES: Series[] = [
   { id: "cinta-kos", title: "Cinta Anak Kos", genre: "Romansa", color: "from-pink-600 to-rose-900", episodes: eps("Cinta Anak Kos", 12) },

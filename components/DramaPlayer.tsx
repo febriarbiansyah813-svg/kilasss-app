@@ -30,18 +30,36 @@ export default function DramaPlayer() {
       <div className="mt-6 grid gap-6 md:grid-cols-[minmax(0,360px)_1fr]">
         <div className={`relative grid aspect-[9/16] place-items-center overflow-hidden rounded-xl bg-gradient-to-br ${series.color}`}>
           {current.video_url ? (
-            <video key={current.video_url} src={current.video_url} controls autoPlay playsInline className="h-full w-full object-cover" />
+            <video key={current.video_url} src={current.video_url} controls autoPlay playsInline onEnded={() => ep < series.episodes.length && setEp(ep + 1)} className="h-full w-full object-cover" />
           ) : (
             <div className="px-6 text-center">
               <p className="text-sm text-white/80">Sedang diputar</p>
               <p className="mt-1 text-xl font-extrabold">{current.title}</p>
-              <p className="mt-3 text-xs text-white/70">Isi <code>video_url</code> pada lib/mock.ts untuk memutar video.</p>
+              <p className="mt-3 text-xs text-white/70">Episode ini belum punya video.</p>
             </div>
           )}
         </div>
 
         <div>
-          <h2 className="font-bold">Daftar episode</h2>
+          <h2 className="font-bold">{series.title}</h2>
+          <p className="text-sm text-neutral-400">{series.genre} · Episode {current.n} dari {series.episodes.length}</p>
+          <div className="mt-3 flex gap-2">
+            <button
+              onClick={() => setEp(Math.max(1, ep - 1))}
+              disabled={ep <= 1}
+              className="rounded-md bg-neutral-800 px-4 py-2 text-sm font-semibold disabled:opacity-40"
+            >
+              ← Sebelumnya
+            </button>
+            <button
+              onClick={() => setEp(Math.min(series.episodes.length, ep + 1))}
+              disabled={ep >= series.episodes.length}
+              className="rounded-md bg-brand px-4 py-2 text-sm font-semibold disabled:opacity-40"
+            >
+              Berikutnya →
+            </button>
+          </div>
+          <h2 className="mt-6 font-bold">Daftar episode</h2>
           <ul className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3">
             {series.episodes.map((e) => (
               <li key={e.n}>

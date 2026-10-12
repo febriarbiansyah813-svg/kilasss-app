@@ -19,7 +19,7 @@ export default async function UploadPage() {
   if (!profile) redirect("/");
 
   return (
-    <div className="mx-auto max-w-xl p-4">
+    <div className="mx-auto max-w-xl px-4 pb-4 pt-16 md:pt-4">
       <h1 className="mb-4 text-xl font-bold">Unggah video</h1>
       <UploadForm userId={user.id} username={profile.username} />
     </div>
